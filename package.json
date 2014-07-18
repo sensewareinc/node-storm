@@ -9,6 +9,7 @@
   "author": "Michael Dellanoce",
   "license": "MIT",
   "dependencies": {
-    "event-stream": "~3.1.5"
+    "event-stream": "~3.1.5",
+    "q": "~1.0.1"
   }
 }

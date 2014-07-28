@@ -11,6 +11,7 @@
   "dependencies": {
     "event-stream": "~3.1.5",
     "q": "~1.0.1",
-    "thrift": "~0.9.1"
+    "thrift": "~0.9.1",
+    "wrench": "~1.5.8"
   }
 }

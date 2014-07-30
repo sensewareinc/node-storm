@@ -60,14 +60,14 @@ var options = {
 var topology = builder.createTopology()
 if (nimbus == 'local') {
 	var cluster = storm.localcluster()
-	cluster.submit(topology, options, function(err) {
+	cluster.submit(topology, options, function() {
 		setTimeout(function() {
 			cluster.shutdown()
 		}, 20000)
-	})
+	}).fail(console.error)
 } else if (nimbus != null) {
 	options.nimbus = nimbus
-	storm.submit(topology, options)
+	storm.submit(topology, options).fail(console.error)
 } else {
 	storm.run(topology)
 }

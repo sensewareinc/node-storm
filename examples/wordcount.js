@@ -1,5 +1,5 @@
 var storm = require('../')
-var path = require('path')
+var q = require('q')
 
 var randomsentence = (function() {
 	var sentences = [
@@ -44,26 +44,22 @@ var wordcount = (function() {
 	}).declareOutputFields(["word", "count"])
 })()
 
-//Usually we can figure out the directory to package automatically, but this is a special case
-var directory = path.resolve(__dirname, '..')
-var builder = storm.topologybuilder('examples/wordcount.js')
-
+var builder = storm.topologybuilder()
 builder.setSpout('randomsentence', randomsentence)
 builder.setBolt('splitsentence', splitsentence, 8).shuffleGrouping('randomsentence');
 builder.setBolt('wordcount', wordcount, 12).fieldsGrouping('splitsentence', ['word']);
 
 var nimbus = process.argv[2]
 var options = {
-	directory: directory,
 	config: {'topology.debug': true}
 }
 var topology = builder.createTopology()
 if (nimbus == 'local') {
 	var cluster = storm.localcluster()
-	cluster.submit(topology, options, function() {
-		setTimeout(function() {
-			cluster.shutdown()
-		}, 20000)
+	cluster.submit(topology, options).then(function() {
+		return q.delay(20000)
+	}).finally(function() {
+		return cluster.shutdown()
 	}).fail(console.error)
 } else if (nimbus != null) {
 	options.nimbus = nimbus

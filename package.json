@@ -4,14 +4,23 @@
   "description": "Node.js multilang protocol implementation for Storm",
   "main": "lib/index.js",
   "keywords": [
-    "storm"
+    "storm",
+    "multilang"
   ],
   "author": "Michael Dellanoce",
   "license": "MIT",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha"
+  },
   "dependencies": {
     "event-stream": "~3.1.5",
     "q": "~1.0.1",
     "thrift": "~0.9.1",
     "wrench": "~1.5.8"
+  },
+  "devDependencies": {
+    "mocha": "~1.21.3",
+    "should": "~4.0.4",
+    "sinon": "~1.10.3"
   }
 }

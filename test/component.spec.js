@@ -13,7 +13,7 @@ describe('component', function() {
 	describe('declareStream', function() {
 
 		it('declares a new stream', function() {
-			this.component.declareStream('test', false, ['field'])
+			this.component.declareStream('test', ['field'])
 			this.component.spec.common.streams.test.should.eql({direct: false, output_fields: ['field']})
 		})
 

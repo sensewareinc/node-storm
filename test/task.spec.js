@@ -4,41 +4,6 @@ var sinon = require('sinon')
 
 describe('task', function() {
 
-	describe('declareStream', function() {
-
-		it('declares a new stream', function() {
-			var task = createTask()
-			task.declareStream('test', false, ['field'])
-			task.streams.test.should.eql({direct: false, output_fields: ['field']})
-		})
-
-		it('declares a new direct stream', function() {
-			var task = createTask()
-			task.declareStream('test', true, ['field'])
-			task.streams.test.should.eql({direct: true, output_fields: ['field']})
-		})
-
-		it('throws an error if a stream with the given ID was already declared', function() {
-			var task = createTask()
-			function declareDuplicateStream() {
-				task.declareStream('test', false, ['field'])
-					.declareStream('test', true, ['field'])
-			}
-			declareDuplicateStream.should.throw()
-		})
-
-	})
-
-	describe('declareOutputFields', function() {
-
-		it('declares the default stream', function() {
-			var task = createTask()
-			task.declareOutputFields(['field'])
-			task.streams.default.should.eql({direct: false, output_fields: ['field']})
-		})
-
-	})
-
 	it('ends the collector when the stream ends', function(done) {
 		var task = createTask()
 		var end = sinon.spy(task.collector, 'end')

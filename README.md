@@ -20,11 +20,11 @@ The local cluster that ships with this module is not the same as the LocalCluste
 
 ## Install the module
 
-    npm install --save storm
+    npm install --save node-storm
 
 ## Require the module
 
-    var storm = require('storm')
+    var storm = require('node-storm')
 
 ## Define a spout
 

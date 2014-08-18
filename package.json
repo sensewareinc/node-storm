@@ -1,5 +1,5 @@
 {
-  "name": "storm",
+  "name": "node-storm",
   "version": "0.0.0",
   "description": "Node.js multilang protocol implementation for Storm",
   "main": "lib/index.js",

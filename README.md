@@ -93,17 +93,11 @@ The local cluster that ships with this module is not the same as the LocalCluste
         // Handle error or submission success
     })
 
-# Run the topology
-
-This defines the entry point for Storm to execute individual components of your topology:
-
-    storm.run(topology)
-
 # Running the examples
 
 To run with a local cluster (see prerequisites):
 
-    node examples/wordcount.js local
+    node examples/wordcount.js
 
 To run with a remote cluster (see prerequisites):
 

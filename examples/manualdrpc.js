@@ -19,13 +19,9 @@ var options = {
 }
 var topology = builder.createTopology()
 
-if (process.stdin.isTTY) {
-	var cluster = storm.localcluster()
-	cluster.submit(topology, options).then(function() {
-		return cluster.execute('exclamation', 'aaa')
-	}).finally(function() {
-		return cluster.shutdown()
-	}).then(console.log, console.error)
-} else {
-	storm.run(topology)
-}
+var cluster = storm.localcluster()
+cluster.submit(topology, options).then(function() {
+	return cluster.execute('exclamation', 'aaa')
+}).finally(function() {
+	return cluster.shutdown()
+}).then(console.log, console.error)

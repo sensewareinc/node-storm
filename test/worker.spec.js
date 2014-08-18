@@ -16,6 +16,7 @@ describe('worker', function() {
 				})
 			}
 		}
+		this.worker = worker(this.topology)
 		this.sandbox = sinon.sandbox.create()
 		this.sandbox.stub(fs, 'writeFileSync')
 	})
@@ -26,7 +27,7 @@ describe('worker', function() {
 
 	it('emits an error if the task cannot be found', function(done) {
 		es.readArray(['{"conf":{},"context":{"task->component":{"1":"adder","2":"nothing"},"taskid":"2"},"pidDir":"/tmp/test"}'])
-			.pipe(worker(this.topology))
+			.pipe(this.worker)
 			.on('error', function(err) {
 				err.should.be.an.Error
 				done()
@@ -35,7 +36,7 @@ describe('worker', function() {
 
 	it('writes a pid file to the specified directory', function(done) {
 		es.readArray(['{"conf":{},"context":{"task->component":{"1":"adder","2":"nothing"},"taskid":"1"},"pidDir":"/tmp/test"}'])
-			.pipe(worker(this.topology))
+			.pipe(this.worker)
 			.pipe(es.wait(function() {
 				fs.writeFileSync.calledWith('/tmp/test/' + process.pid, '').should.be.true
 				done()
@@ -48,11 +49,43 @@ describe('worker', function() {
 			'{"id":1,"tuple":[3]}'
 		].join('\nend\n')
 		es.readArray([input])
-			.pipe(worker(this.topology))
+			.pipe(this.worker)
 			.pipe(es.wait(function(err, text) {
 				text.should.eql('{"pid":' + process.pid + '}\nend\n{"command":"emit","tuple":[4]}\nend\n{"command":"ack","id":1}\nend\n')
 				done()
 			}))
+	})
+
+	describe('run', function() {
+
+		beforeEach(function() {
+			this.sink = es.wait(function() {
+			})
+		})
+
+		it('fails if stdin is a TTY', function(done) {
+			this.worker.run({isTTY: true}).fail(done)
+		})
+
+		it('fails if no multi-lang messages are found on stdin', function(done) {
+			this.worker.run(es.readable(function() {
+				var readable = this
+				process.nextTick(function() {
+					readable.emit('end')
+				})
+			}), this.sink).fail(done)
+		})
+
+		it('succeeds if multi-lang messages are found on stdin', function(done) {
+			this.worker.run(es.readable(function() {
+				var readable = this
+				process.nextTick(function() {
+					readable.emit('data', '{"conf":{},"context":{"task->component":{"1":"adder","2":"nothing"},"taskid":"1"},"pidDir":"/tmp/test"}')
+					readable.emit('end')
+				})
+			}), this.sink).then(done)
+		})
+
 	})
 
 })

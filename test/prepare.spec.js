@@ -27,4 +27,14 @@ describe('prepare', function() {
 			}))
 	})
 
+	it('dequeues all events if the stream ends without a handshake', function(done) {
+		es.readArray([1,2,3])
+			.pipe(prepare())
+			.pipe(es.writeArray(function(err, array) {
+				(err == null).should.be.true
+				array.should.eql([1, 2, 3])
+				done()
+			}))
+	})
+
 })

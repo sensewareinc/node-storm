@@ -4,12 +4,12 @@ var sinon = require('sinon')
 
 describe('prepare', function() {
 
-	it('ensures that the handshake is the first message in the stream', function(done) {
+	it('removes the handshake from the stream', function(done) {
 		es.readArray([2, {conf:1}, 3])
 			.pipe(prepare())
 			.pipe(es.writeArray(function(err, array) {
 				(err == null).should.be.true
-				array.should.eql([{conf:1}, 2, 3])
+				array.should.eql([2, 3])
 				done()
 			}))
 	})

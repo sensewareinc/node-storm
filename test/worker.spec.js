@@ -19,6 +19,8 @@ describe('worker', function() {
 		this.worker = worker(this.topology)
 		this.sandbox = sinon.sandbox.create()
 		this.sandbox.stub(fs, 'writeFileSync')
+		this.prepare = this.sandbox.spy()
+		this.topology.tasks.adder.on('prepare', this.prepare)
 	})
 
 	afterEach(function() {
@@ -39,6 +41,16 @@ describe('worker', function() {
 			.pipe(this.worker)
 			.pipe(es.wait(function() {
 				fs.writeFileSync.calledWith('/tmp/test/' + process.pid, '').should.be.true
+				done()
+			}))
+	})
+
+	it('emits a prepare event with the topology context', function(done) {
+		var self = this
+		es.readArray(['{"conf":{},"context":{"task->component":{"1":"adder","2":"nothing"},"taskid":"1"},"pidDir":"/tmp/test"}'])
+			.pipe(this.worker)
+			.pipe(es.wait(function() {
+				self.prepare.called.should.be.true
 				done()
 			}))
 	})

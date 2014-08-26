@@ -15,18 +15,6 @@ describe('task', function() {
 			}))
 	})
 
-	it('emits a prepare event and stores the context and config', function(done) {
-		var task = createTask()
-		es.readArray([{conf:'conf',context:'context'}])
-			.pipe(task)
-			.on('prepare', function(prepare) {
-				this.config.should.eql('conf')
-				this.context.should.eql('context')
-				prepare.should.eql({conf:'conf',context:'context'})
-				done()
-			})
-	})
-
 	it('emits an event for each command', function(done) {
 		var task = createTask()
 		es.readArray([{command:'next'}])

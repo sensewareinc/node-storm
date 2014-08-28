@@ -98,6 +98,16 @@ describe('collector', function() {
 			})
 		})
 
+		it('returns the tasks a tuple was sent to for a direct emit', function(done) {
+			var task = createTask()
+			es.readArray([])
+				.pipe(task)
+			task.collector.emit(['test1'], {task: '3'}).then(function(tasks) {
+				tasks.should.eql(['3'])
+				done()
+			})
+		})
+
 	})
 
 	describe('end', function() {

@@ -11,7 +11,7 @@
     "storm",
     "multilang"
   ],
-  "author": "Michael Dellanoce",
+  "author": "Michael Dellanoce <michael.dellanoce@gmail.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/RallySoftware/node-storm/issues"

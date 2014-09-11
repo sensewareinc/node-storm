@@ -3,12 +3,20 @@
   "version": "0.0.0",
   "description": "Node.js multilang protocol implementation for Storm",
   "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/RallySoftware/node-storm.git"
+  },
   "keywords": [
     "storm",
     "multilang"
   ],
   "author": "Michael Dellanoce",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RallySoftware/node-storm/issues"
+  },
+  "homepage": "https://github.com/RallySoftware/node-storm",
   "scripts": {
     "test": "./node_modules/.bin/mocha"
   },

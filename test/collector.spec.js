@@ -110,6 +110,20 @@ describe('collector', function() {
 
 	})
 
+	describe('heartbeat', function() {
+		it('emits a sync command when a heartbeat message is received', function(done){
+			var task = createTask()
+			es.readArray([{stream: '__heartbeat'}])
+				.pipe(task)
+				.pipe(es.writeArray(function(err, array) {
+					array.should.eql([
+						{command: 'sync'},
+					])
+					done()
+				}))
+		})
+	})
+
 	describe('end', function() {
 
 		it('ends the stream after all tuples have been acked or failed', function(done) {

@@ -35,6 +35,16 @@ describe('task', function() {
 			})
 	})
 
+	it('emits a heartbeat for heartbeat messages', function(done){
+		var task = createTask()
+		es.readArray([{stream: '__heartbeat'}])
+			.pipe(task)
+			.on('__heartbeat', function(data) {
+				data.should.eql({stream: '__heartbeat'})
+				done()
+			})
+	})
+
 	it('emits an event for each tuple', function(done) {
 		var task = createTask()
 		es.readArray([{id:1}])

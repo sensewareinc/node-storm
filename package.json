@@ -30,6 +30,8 @@
     "wrench": "~1.5.8"
   },
   "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-bump": "^0.1.0",
     "mocha": "~1.21.3",
     "should": "~4.0.4",
     "sinon": "~1.10.3"
